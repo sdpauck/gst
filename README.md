@@ -1,3 +1,8 @@
+## Gst pipeline examples
+#### udpsrc to fpsdisplaysink preview
+```
+gst-launch-1.0 -e udpsrc port=5600 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! fpsdisplaysink sync=false
+```
 #### lib-camera to gst
 ```
 libcamera-vid -t 0 -k -n --inline --framerate 30 --mode 2312:1736 --width 1280 --height 720 --lens-position 6.5 --autofocus-mode manual -o - | \
