@@ -7,6 +7,10 @@ gst-launch-1.0 libcamerasrc name=src src.src ! queue ! videoconvert ! autovideos
 ```
 gst-launch-1.0 -e udpsrc port=5600 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! decodebin ! videoconvert ! fpsdisplaysink sync=false
 ```
+#### udpsrc to filesink mp4
+```
+gst-launch-1.0 -e udpsrc port=5600 caps = "application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96" ! rtph264depay ! video/x-h264 ! queue ! h264parse ! queue ! mp4mux ! filesink location=/media/pi/CA62-CAC1/rpivideo/video.mp4
+```
 #### ximagesrc to filesink
 ```
 gst-launch-1.0 ximagesrc ! video/x-raw,framerate=30/1 ! videoconvert ! x264enc bitrate=10000 speed-preset=veryfast tune=zerolatency ! matroskamux ! filesink location=$DIRNAME/$next_file    
