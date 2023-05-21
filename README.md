@@ -30,3 +30,14 @@ gst-launch-1.0 ximagesrc ! videoscale ! video/x-raw,width=320,height=240,framera
 libcamera-vid -t 0 -k -n --inline --framerate 30 --mode 2312:1736 --width 1280 --height 720 --lens-position 6.5 --autofocus-mode manual -o - | \ 
 gst-launch-1.0 fdsrc fd=0 ! h264parse ! rtph264pay ! multiudpsink clients=192.168.0.1:5600,127.0.0.1:5600 buffer-size=10485760
 ```
+
+
+
+
+#### This is my stereo camera pipeline:
+```
+gst-launch-1.0 videomixer name=m sink_1::xpos=320 ! videoconvert ! x264enc tune=zerolatency ! rtph264pay \
+! udpsink host=127.0.0.1 port=5600 \
+v4l2src device=/dev/video14 ! image/jpeg, width=320, height=240 ! jpegdec ! queue ! videoconvert \
+! m. v4l2src device=/dev/video2 ! image/jpeg, width=320, height=240 ! jpegdec ! queue ! videoconvert ! m.
+```
