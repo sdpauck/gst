@@ -25,6 +25,11 @@ gst-launch-1.0 ximagesrc ! video/x-raw,framerate=30/1 ! videoconvert ! x264enc b
 libcamera-vid -t 0 -k -n --inline --framerate 30 --mode 2312:1736 --width 1280 --height 720 --lens-position 6.5 --autofocus-mode manual -o - | \
 gst-launch-1.0 fdsrc fd=0  name=src src.src ! h264parse ! avdec_h264 ! videoconvert ! autovideosink
 ```
+### UDP
+#### v4l2src to multiudpsink
+```
+gst-launch-1.0 v4l2src device=/dev/video0  ! autovideoconvert ! x264enc tune=zerolatency ! rtph264pay config-interval=1 pt=96 mtu=1400 aggregate-mode=zero-latency ! multiudpsink clients=192.168.144.20:5600,127.0.0.1:5600 buffer-size=10485760
+```
 #### ximagesrc to udpsink
 ```
 gst-launch-1.0 ximagesrc ! videoscale ! video/x-raw,width=320,height=240,framerate=30/1 ! videoconvert ! x264enc bitrate=10000 speed-preset=superfast tune=zerolatency ! rtph264pay name=pay0 pt=96 ! udpsink host=192.168.0.1 port=5600 sync=false
