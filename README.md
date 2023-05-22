@@ -1,4 +1,8 @@
 ## Gst pipeline examples
+#### v4l2src preview
+```
+gst-launch-1.0   v4l2src !   autovideoconvert !  videoscale !  video/x-raw,width=1280 ! ximagesink
+```
 #### libcamerasrc to autovideosink
 ```
 gst-launch-1.0 libcamerasrc name=src src.src ! queue ! videoconvert ! autovideosink src.src_0 ! queue ! videoconvert ! autovideosink
