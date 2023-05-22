@@ -32,8 +32,16 @@ gst-launch-1.0 fdsrc fd=0 ! h264parse ! rtph264pay ! multiudpsink clients=192.16
 ```
 
 
+## GSTD
+#### videocrop aka ZOOM
+```
+pipeline_create testpipe videotestsrc ! videocrop top=42 left=1 right=4 bottom=0 name=crp ! ximagesink
+pipeline_play testpipe
+element_set testpipe crp top 100
+```
 
 
+## TEST
 #### This is my stereo camera pipeline:
 ```
 gst-launch-1.0 videomixer name=m sink_1::xpos=320 ! videoconvert ! x264enc tune=zerolatency ! rtph264pay \
