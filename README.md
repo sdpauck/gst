@@ -45,11 +45,8 @@ element_set testpipe crp top 100
 ```
 
 
-## TEST
+## DUAL CAMERA test (ximagesrc)
 #### This is my stereo camera pipeline:
 ```
-gst-launch-1.0 videomixer name=m sink_1::xpos=320 ! videoconvert ! x264enc tune=zerolatency ! rtph264pay \
-! udpsink host=127.0.0.1 port=5600 \
-v4l2src device=/dev/video14 ! image/jpeg, width=320, height=240 ! jpegdec ! queue ! videoconvert \
-! m. v4l2src device=/dev/video2 ! image/jpeg, width=320, height=240 ! jpegdec ! queue ! videoconvert ! m.
+gst-launch-1.0 videomixer name=m sink_1::xpos=320 ! autovideoconvert ! ximagesink sync=false v4l2src !   autovideoconvert !  videoscale !  video/x-raw,width=320 ! m. ximagesrc startx=1920 !   autovideoconvert !  videoscale !  video/x-raw,width=1280 ! m.
 ```
