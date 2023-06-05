@@ -40,6 +40,11 @@ libcamera-vid -t 0 -k -n --inline --framerate 30 --mode 2312:1736 --width 1280 -
 gst-launch-1.0 fdsrc fd=0 ! h264parse ! rtph264pay ! multiudpsink clients=192.168.0.1:5600,127.0.0.1:5600 buffer-size=10485760
 ```
 
+#### ht-301 to wfb-ng
+```
+v4l2src device=/dev/video1 ! video/x-raw ! videocrop top=0 left=0 right=0 bottom=4 ! videoconvert ! x264enc  tune=zerolatency ! h264parse config-interval=3 ! rtph264pay mtu=1400 ! udpsink host=127.0.0.1 port=5602 sync=false
+```
+
 
 ## GSTD
 #### videocrop aka ZOOM
